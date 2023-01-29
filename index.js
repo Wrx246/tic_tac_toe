@@ -33,14 +33,21 @@ io.on("connection", (socket) => {
         console.log(`User with ID: ${socket.id} joined room: ${room}`);
     });
 
-    socket.on('leave_room', (room) => {
-        socket.leave(room)
+    socket.on('leave_room', async (room) => {
+        let r = room.toString()
+        socket.leave(r)
+        io.sockets.to(r).emit('leave_opponent', 'Your opponent has left the game')
     })
 
     socket.on('addUser', (name) => {
         addUser(name, socket.id)
         io.emit('getUsers', users)
     });
+
+    socket.on('winner', (data) => {
+        let room = data.room.toString()
+        io.sockets.to(room).emit('winner_emit', data)
+    })
 
     socket.on("send_step", (data) => {
         let room = data.room.toString()
