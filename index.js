@@ -9,13 +9,12 @@ app.use(cors())
 
 const server = http.createServer(app);
 
-// const io = new Server(server, {
-//     cors: {
-//         origin: process.env.PORT,
-//         methods: ["GET", "POST"],
-//     },
-// });
-const io = new Server(server);
+const io = new Server(server, {
+    cors: {
+        origin: '*',
+        // methods: ["GET", "POST"],
+    },
+});
 
 const users = [];
 
