@@ -5,7 +5,20 @@ require('dotenv').config()
 const http = require("http");
 
 const app = express();
-app.use(cors())
+const corsOptions = {
+  origin: process.env.PORT,
+  credentials: true,
+  optionSuccessStatus: 200
+}
+
+app.use(function (req, res, next) {
+  //Enabling CORS
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-client-key, x-client-token, x-client-secret, Authorization");
+  next();
+});
+app.use(cors(corsOptions))
 
 const server = http.createServer(app);
 
